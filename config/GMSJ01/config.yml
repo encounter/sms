@@ -2,7 +2,8 @@ name: mario
 object: orig/GMSJ01/sys/main.dol
 
 # Generated from mario.MAP
-# With common_start: 0x80400B8C
+# map: orig/GMSJ01/files/mario.MAP
+# common_start: 0x80400B8C
 symbols: config/GMSJ01/symbols.txt
 splits: config/GMSJ01/splits.txt
 

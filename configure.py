@@ -18,6 +18,7 @@ if sys.platform == "cygwin":
 
 VERSIONS = [
     "GMSJ01",  # 0
+    "GMSP01",  # 1
 ]
 
 if len(VERSIONS) > 1:
