@@ -166,7 +166,7 @@ LIBS = [
 
 # Tool versions
 COMPILERS_TAG = "1"
-DTK_TAG = "v0.4.1"
+DTK_TAG = "v0.4.2"
 SJISWRAP_TAG = "v1.1.0"
 WIBO_TAG = "0.5.0"
 
