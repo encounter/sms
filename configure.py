@@ -112,25 +112,24 @@ else:
 
 CFLAGS_RUNTIME = [
     *CFLAGS_BASE,
-    "-use_lmw_stmw on",
     "-str reuse,pool,readonly",
     "-inline deferred,auto",
 ]
 
-CFLAGS_FRAMEWORK = [
+CFLAGS_JSYSTEM = [
     *CFLAGS_BASE,
-    "-use_lmw_stmw off",
-    "-str reuse,pool,readonly",
-    "-inline noauto",
-    "-O3,s",
-    "-schedule off",
-    "-sym on",
+    "-str reuse,readonly",
 ]
 
-CFLAGS_REL = [
-    *CFLAGS_FRAMEWORK,
-    "-sdata 0",
-    "-sdata2 0",
+CFLAGS_GAME = [
+    *CFLAGS_BASE,
+    "-str reuse,readonly",
+    "-O4,s",
+]
+
+CFLAGS_SYSTEM = [
+    *CFLAGS_GAME,
+    "-opt all,nostrength",
 ]
 
 LINKER_VERSION = "GC/1.2.5"
@@ -153,14 +152,104 @@ def NonMatching(obj_path, **kwargs):
 
 LIBS = [
     {
+        "lib": "main",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_GAME,
+        "host": True,
+        "objects": [
+            Matching("main.cpp"),
+        ],
+    },
+    {
+        "lib": "JSystem",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_JSYSTEM,
+        "host": True,
+        "objects": [
+            Matching("JSystem/J3DClusterLoader.cpp"),
+            Matching("JSystem/JASProbe.cpp"),
+            Matching("JSystem/JDRPlacement.cpp"),
+            Matching("JSystem/JDRResolution.cpp"),
+            Matching("JSystem/JDRResolution.cpp"),
+            Matching("JSystem/JSUList.cpp"),
+            Matching("JSystem/JUTRect.cpp"),
+        ],
+    },
+    {
+        "lib": "MarioUtil",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_GAME,
+        "host": True,
+        "objects": [
+            Matching("MarioUtil/MapUtil.cpp"),
+            Matching("MarioUtil/RumbleType.cpp"),
+        ],
+    },
+    {
         "lib": "Runtime.PPCEABI.H",
         "mw_version": "GC/1.2.5",
         "cflags": CFLAGS_RUNTIME,
         "host": False,
         "objects": [
-            NonMatching("Runtime/__init_cpp_exceptions.cpp"),
-            NonMatching("Runtime/Gecko_ExceptionPPC.cp"),
-            NonMatching("Runtime/global_destructor_chain.c"),
+            NonMatching("Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            NonMatching("Runtime.PPCEABI.H/Gecko_ExceptionPPC.cp"),
+            NonMatching("Runtime.PPCEABI.H/global_destructor_chain.c"),
+        ],
+    },
+    {
+        "lib": "MSL_C.PPCEABI.bare.H",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_RUNTIME,
+        "host": False,
+        "objects": [
+            Matching("MSL_C.PPCEABI.bare.H/hyperbolicsf.c"),
+            Matching("MSL_C.PPCEABI.bare.H/rand.c"),
+        ],
+    },
+    {
+        "lib": "NPC",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_GAME,
+        "host": True,
+        "objects": [
+            Matching("NPC/NpcBalloon.cpp"),
+            Matching("NPC/NpcInitActionData.cpp"),
+        ],
+    },
+    {
+        "lib": "os",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_BASE,
+        "host": False,
+        "objects": [
+            Matching("os/__ppc_eabi_init.cpp"),
+            Matching("os/__start.c"),
+        ],
+    },
+    {
+        "lib": "Player",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_GAME,
+        "host": True,
+        "objects": [
+            Matching("Player/MarioAccess.cpp"),
+        ],
+    },
+    {
+        "lib": "System",
+        "mw_version": "GC/1.2.5",
+        "cflags": CFLAGS_SYSTEM,
+        "host": True,
+        "objects": [
+            Matching(
+                "System/FlagManager.cpp",
+                cflags=[*CFLAGS_SYSTEM, "-inline all,level=1,deferred"],
+            ),
+            Matching("System/ParamInst.cpp"),
+            Matching("System/ProcessMeter.cpp"),
+            Matching("System/Resolution.cpp"),
+            Matching("System/StageUtil.cpp"),
+            Matching("System/TexCache.cpp"),
         ],
     },
 ]
