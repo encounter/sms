@@ -233,7 +233,6 @@ cflags_jsystem = [
 cflags_game = [
     *cflags_base,
     "-str reuse,readonly",
-    "-O4,s",
 ]
 
 cflags_system = [
@@ -310,6 +309,7 @@ config.libs = [
         "objects": [
             Object(Matching, "MarioUtil/MapUtil.cpp"),
             Object(Matching, "MarioUtil/RumbleType.cpp"),
+            Object(Matching, "MarioUtil/EffectUtil.cpp"),
         ],
     },
     {
